@@ -1,0 +1,31 @@
+running egg_info
+creating ../../build/lfd/lfd.egg-info
+writing ../../build/lfd/lfd.egg-info/PKG-INFO
+writing dependency_links to ../../build/lfd/lfd.egg-info/dependency_links.txt
+writing entry points to ../../build/lfd/lfd.egg-info/entry_points.txt
+writing requirements to ../../build/lfd/lfd.egg-info/requires.txt
+writing top-level names to ../../build/lfd/lfd.egg-info/top_level.txt
+writing manifest file '../../build/lfd/lfd.egg-info/SOURCES.txt'
+reading manifest file '../../build/lfd/lfd.egg-info/SOURCES.txt'
+writing manifest file '../../build/lfd/lfd.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /IL_Turtlebot/ros_ws/build/lfd/build
+creating /IL_Turtlebot/ros_ws/build/lfd/build/lib
+creating /IL_Turtlebot/ros_ws/build/lfd/build/lib/lfd
+copying lfd/__init__.py -> /IL_Turtlebot/ros_ws/build/lfd/build/lib/lfd
+running install
+running install_lib
+creating /IL_Turtlebot/ros_ws/install/lfd/lib/python3.10/site-packages/lfd
+copying /IL_Turtlebot/ros_ws/build/lfd/build/lib/lfd/__init__.py -> /IL_Turtlebot/ros_ws/install/lfd/lib/python3.10/site-packages/lfd
+byte-compiling /IL_Turtlebot/ros_ws/install/lfd/lib/python3.10/site-packages/lfd/__init__.py to __init__.cpython-310.pyc
+running install_data
+creating /IL_Turtlebot/ros_ws/install/lfd/share/ament_index
+creating /IL_Turtlebot/ros_ws/install/lfd/share/ament_index/resource_index
+creating /IL_Turtlebot/ros_ws/install/lfd/share/ament_index/resource_index/packages
+copying resource/lfd -> /IL_Turtlebot/ros_ws/install/lfd/share/ament_index/resource_index/packages
+copying package.xml -> /IL_Turtlebot/ros_ws/install/lfd/share/lfd
+running install_egg_info
+Copying ../../build/lfd/lfd.egg-info to /IL_Turtlebot/ros_ws/install/lfd/lib/python3.10/site-packages/lfd-0.0.0-py3.10.egg-info
+running install_scripts
+writing list of installed files to '/IL_Turtlebot/ros_ws/build/lfd/install.log'

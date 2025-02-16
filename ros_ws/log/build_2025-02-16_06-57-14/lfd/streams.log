@@ -1,0 +1,20 @@
+[0.461s] Invoking command in '/IL_Turtlebot/ros_ws/build/lfd': PYTHONPATH=/IL_Turtlebot/ros_ws/build/lfd/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/IL_Turtlebot/ros_ws/install/lfd/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py develop --editable --build-directory /IL_Turtlebot/ros_ws/build/lfd/build --no-deps symlink_data --force
+[0.665s] running develop
+[0.667s] /usr/lib/python3/dist-packages/setuptools/command/easy_install.py:158: EasyInstallDeprecationWarning: easy_install command is deprecated. Use build and pip and other standards-based tools.
+[0.667s]   warnings.warn(
+[0.773s] running egg_info
+[0.773s] writing lfd.egg-info/PKG-INFO
+[0.773s] writing dependency_links to lfd.egg-info/dependency_links.txt
+[0.773s] writing entry points to lfd.egg-info/entry_points.txt
+[0.773s] writing requirements to lfd.egg-info/requires.txt
+[0.773s] writing top-level names to lfd.egg-info/top_level.txt
+[0.775s] reading manifest file 'lfd.egg-info/SOURCES.txt'
+[0.775s] writing manifest file 'lfd.egg-info/SOURCES.txt'
+[0.777s] running build_ext
+[0.777s] Creating /IL_Turtlebot/ros_ws/install/lfd/lib/python3.10/site-packages/lfd.egg-link (link to .)
+[0.778s] 
+[0.778s] Installed /IL_Turtlebot/ros_ws/build/lfd
+[0.778s] running symlink_data
+[0.779s] symbolically linking /IL_Turtlebot/ros_ws/build/lfd/resource/lfd -> /IL_Turtlebot/ros_ws/install/lfd/share/ament_index/resource_index/packages
+[0.779s] symbolically linking /IL_Turtlebot/ros_ws/build/lfd/package.xml -> /IL_Turtlebot/ros_ws/install/lfd/share/lfd
+[0.802s] Invoked command in '/IL_Turtlebot/ros_ws/build/lfd' returned '0': PYTHONPATH=/IL_Turtlebot/ros_ws/build/lfd/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/IL_Turtlebot/ros_ws/install/lfd/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py develop --editable --build-directory /IL_Turtlebot/ros_ws/build/lfd/build --no-deps symlink_data --force

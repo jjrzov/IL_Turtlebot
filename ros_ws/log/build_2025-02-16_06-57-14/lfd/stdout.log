@@ -1,0 +1,16 @@
+running develop
+running egg_info
+writing lfd.egg-info/PKG-INFO
+writing dependency_links to lfd.egg-info/dependency_links.txt
+writing entry points to lfd.egg-info/entry_points.txt
+writing requirements to lfd.egg-info/requires.txt
+writing top-level names to lfd.egg-info/top_level.txt
+reading manifest file 'lfd.egg-info/SOURCES.txt'
+writing manifest file 'lfd.egg-info/SOURCES.txt'
+running build_ext
+Creating /IL_Turtlebot/ros_ws/install/lfd/lib/python3.10/site-packages/lfd.egg-link (link to .)
+
+Installed /IL_Turtlebot/ros_ws/build/lfd
+running symlink_data
+symbolically linking /IL_Turtlebot/ros_ws/build/lfd/resource/lfd -> /IL_Turtlebot/ros_ws/install/lfd/share/ament_index/resource_index/packages
+symbolically linking /IL_Turtlebot/ros_ws/build/lfd/package.xml -> /IL_Turtlebot/ros_ws/install/lfd/share/lfd

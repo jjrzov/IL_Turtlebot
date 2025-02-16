@@ -1,0 +1,1 @@
+My name is Jorge Ramirez, and I am a student at Calpoly SLO. This repo contains the ros2 workspace for my senior project / beacon research project. The goal is to research and develop Imitation Learning (Learning From Demonstration) applications onto the Turtlebot4.
