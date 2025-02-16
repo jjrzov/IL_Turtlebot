@@ -1,9 +1,0 @@
-source;share/lfd/hook/pythonpath.ps1
-source;share/lfd/hook/pythonpath.dsv
-source;share/lfd/hook/pythonpath.sh
-source;share/lfd/hook/ament_prefix_path.ps1
-source;share/lfd/hook/ament_prefix_path.dsv
-source;share/lfd/hook/ament_prefix_path.sh
-source;../../build/lfd/share/lfd/hook/pythonpath_develop.ps1
-source;../../build/lfd/share/lfd/hook/pythonpath_develop.dsv
-source;../../build/lfd/share/lfd/hook/pythonpath_develop.sh
