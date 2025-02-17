@@ -20,6 +20,9 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'teleop_keyboard = lfd.teleop_keyboard:main',
+            'move_random = lfd.random_movement:main',
+            'hallucinate = lfd.hallucinate:main'
         ],
     },
 )
