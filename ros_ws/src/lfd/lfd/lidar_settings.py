@@ -7,6 +7,9 @@ Y_MAP_ORIGIN = 0
 X_MAP_MIN = -50
 Y_MAP_MIN = -50 # Y grows downward
 
+# Ray Casting Settings
+INTERSECTION_STEP = 0.1
+
 # LIDAR Metadata (in radians)
 SAMPLES = 640
 LIDAR_RES = 1
