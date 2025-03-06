@@ -38,7 +38,7 @@ class ONNXController : public nav2_core::Controller
         geometry_msgs::msg::TwistStamped computeVelocityCommands(
             const geometry_msgs::msg::PoseStamped &pose,
             const geometry_msgs::msg::Twist &velocity,
-            nav2_core::GoalChecker * goal_checker) override;
+            nav2_core::GoalChecker *goal_checker) override;
         
         void setPlan(const nav_msgs::msg::Path &path) override;
     
@@ -53,9 +53,15 @@ class ONNXController : public nav2_core::Controller
 
         nav_msgs::msg::Path current_plan_;
         double speed_limit_;
-
+        double max_angular_vel_;
+        double max_linear_vel_;
+        
+        std::string model_path_;
         std::unique_ptr<Ort::Session> session_;
-        std::string input_name_, output_name_;
+        std::vector<const char *> input_name_, output_name_;
+
+        nav_msgs::msg::Path global_plan_;
+        std::shared_ptr<rclcpp_lifecycle::LifecyclePublisher<nav_msgs::msg::Path>> global_pub_;
 };
 
 }   // namespace onnx_controller

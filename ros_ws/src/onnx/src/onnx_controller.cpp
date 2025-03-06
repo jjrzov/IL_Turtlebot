@@ -5,11 +5,138 @@
 #include "onnx/onnx_controller.hpp"
 
 #include "nav2_core/exceptions.hpp"
+#include "nav2_util/node_utils.hpp"
+#include "nav2_util/geometry_utils.hpp"
 
+using nav2_util::declare_parameter_if_not_declared;
+using nav2_util::geometry_utils::euclidean_distance;
 
-class ONNXController : public rclcpp::Node {
-    public:
-        ONNXController() : Node("onnx_controller") {
-            // ROS2 publishers
-        }
-};
+namespace onnx_controller
+{
+    void ONNXController::configure(
+        const rclcpp_lifecycle::LifecycleNode::WeakPtr &parent,
+        std::string name, const std::shared_ptr<tf2_ros::Buffer> tf,
+        const std::shared_ptr<nav2_costmap_2d::Costmap2DROS> costmap_ros)
+    {
+        node_ = parent;
+
+        auto node = node_.lock();
+
+        costmap_ros_ = costmap_ros;
+        tf_ = tf;
+        plugin_name_ = name;
+        logger_ = node->get_logger();
+        clock_ = node->get_clock();
+
+        RCLCPP_INFO(logger_, "Configuring ONNX Controller...");
+
+        // Declare parameters
+        declare_parameter_if_not_declared(
+            node, plugin_name_ + ".model_path", rclcpp::ParameterValue(
+                "/pathOfModel.onnx"));
+        declare_parameter_if_not_declared(
+            node, plugin_name_ + ".max_linear_vel", rclcpp::ParameterValue(
+                0.5));
+        declare_parameter_if_not_declared(
+            node, plugin_name_ + ".max_angular_vel", rclcpp::ParameterValue(
+                1.0));
+        
+        node->get_parameter(plugin_name_ + ".model_path", model_path_);
+        node->get_parameter(plugin_name_ + ".max_linear_vel", max_linear_vel_);
+        node->get_parameter(plugin_name_ + ".max_angular_vel", max_angular_vel_);
+
+        // Load ONNX Model
+        Ort::Env env;
+        Ort::SessionOptions session_options;
+
+        session_ = std::make_unique<Ort::Session>(env, model_path_, session_options);
+        
+        // Get input and output names
+        Ort::AllocatorWithDefaultOptions ort_alloc;
+        Ort::AllocatedStringPtr inputName = session_->GetInputNameAllocated(0, ort_alloc);
+        Ort::AllocatedStringPtr outputName = session_->GetInputNameAllocated(0, ort_alloc);
+        input_name_ = { inputName.get()};
+        output_name_ = { outputName.get()};
+        inputName.release();
+        outputName.release();
+
+        global_pub_ = node->create_publisher<nav_msgs::msg::Path>("received_global_plan", 1);
+    }
+
+    void ONNXController::cleanup()
+    {
+        RCLCPP_INFO(
+            logger_,
+            "Cleaning up ONNX Controller..."
+        );
+        session_.reset();
+        global_pub_.reset();
+    }
+
+    void ONNXController::activate()
+    {
+        RCLCPP_INFO(
+            logger_,
+            "Activating ONNX Controller..."
+        );
+        global_pub_->on_activate();
+    }
+
+    void ONNXController::deactivate()
+    {
+        RCLCPP_INFO(
+            logger_,
+            "Deactivating ONNX Controller..."
+        );
+        global_pub_->on_deactivate();
+    }
+
+    void ONNXController::setSpeedLimit(const double &speed_limit, const bool &percentage){
+        (void) speed_limit;
+        (void) percentage;
+    }
+
+    geometry_msgs::msg::TwistStamped ONNXController::computeVelocityCommands(
+        const geometry_msgs::msg::PoseStamped &pose,
+        const geometry_msgs::msg::Twist &velocity,
+        nav2_core::GoalChecker *goal_checker)
+    {
+        (void) goal_checker;    // Not needed
+
+        // TODO: Subscribe to LIDAR???
+
+        // Define Shape
+        std::vector<int64_t> inputShape = {1, 1004};    // Vector vs Array???
+        
+        // Define Array
+        std::vector<float> input;
+
+        // Define tensor
+        auto memory_info = Ort::MemoryInfo::CreateCpu(OrtDeviceAllocator, OrtMemTypeCPU);
+        Ort::Value inputTensor = Ort::Value::CreateTensor<float>(memory_info, input.data(),
+                input.size(), inputShape.data(), inputShape.size()); 
+
+        const char* const* input_names = input_name_.data();
+        const char* const* output_names = output_name_.data();
+
+        Ort::RunOptions runOptions;
+        std::vector<Ort::Value> outputTensor = session_->Run(runOptions, input_names, &inputTensor, 1, output_names, 1);
+
+        float* output_data = outputTensor[0].GetTensorMutableData<float>();
+        float predicted_linear = output_data[0];
+        float predicted_angular = output_data[1];
+
+        geometry_msgs::msg::TwistStamped cmd_vel;
+        cmd_vel.header.frame_id = pose.header.frame_id;
+        cmd_vel.twist.linear.x = predicted_linear;
+        cmd_vel.twist.angular.z = predicted_angular;
+
+        return cmd_vel;
+    }
+
+    void ONNXController::setPlan(const nav_msgs::msg::Path &path)
+    {
+        global_pub_->publish(path);
+        global_plan_ = path;
+    }
+}
