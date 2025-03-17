@@ -107,21 +107,20 @@ namespace onnx_controller
     {
         (void) goal_checker;    // Not needed
 
-        // TODO: Subscribe to LIDAR???
-
         // Define Shape
         // 1080 From LIDAR
         // 3 From Odom (x,y,phi)
         // 3 From local goals (x,y,phi)
-        std::vector<int64_t> inputShape = {1, 1086};    // Vector vs Array???
+        std::vector<int64_t> inputShape = {1, 1086};    // Vector vs Array??
+        std::vector<float> input_data = latest_onnx_input.data;
         
         // Define Array
         std::vector<float> input;
 
         // Define tensor
         auto memory_info = Ort::MemoryInfo::CreateCpu(OrtDeviceAllocator, OrtMemTypeCPU);
-        Ort::Value inputTensor = Ort::Value::CreateTensor<float>(memory_info, input.data(),
-                input.size(), inputShape.data(), inputShape.size()); 
+        Ort::Value inputTensor = Ort::Value::CreateTensor<float>(memory_info, input_data.data(),
+                input_data.size(), inputShape.data(), inputShape.size()); 
 
         const char* const* input_names = input_name_.data();
         const char* const* output_names = output_name_.data();
