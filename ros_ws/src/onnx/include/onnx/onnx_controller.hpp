@@ -62,6 +62,11 @@ class ONNXController : public nav2_core::Controller
 
         nav_msgs::msg::Path global_plan_;
         std::shared_ptr<rclcpp_lifecycle::LifecyclePublisher<nav_msgs::msg::Path>> global_pub_;
+
+        rclcpp::Subscription<custom_msgs::msg::OnnxInput>::SharedPtr onnx_sub_;
+        custom_msgs::msg::OnnxInput latest_onnx_input_;
+
+        void onnxInputCallback(const custom_msgs::msg::OnnxInput::SharedPtr msg);
 };
 
 }   // namespace onnx_controller

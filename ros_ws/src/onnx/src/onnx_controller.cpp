@@ -61,6 +61,10 @@ namespace onnx_controller
         outputName.release();
 
         global_pub_ = node->create_publisher<nav_msgs::msg::Path>("received_global_plan", 1);
+        onnx_sub_ = node->create_subscription<custom_msgs::msg::OnnxInput>(
+            "/onnx_input, rclcpp::QoS(10)",
+            std::bind(&ONNXController::onnxInputCallback, this, std::placeholders::_1)
+        );
     }
 
     void ONNXController::cleanup()
@@ -106,7 +110,10 @@ namespace onnx_controller
         // TODO: Subscribe to LIDAR???
 
         // Define Shape
-        std::vector<int64_t> inputShape = {1, 1004};    // Vector vs Array???
+        // 1080 From LIDAR
+        // 3 From Odom (x,y,phi)
+        // 3 From local goals (x,y,phi)
+        std::vector<int64_t> inputShape = {1, 1086};    // Vector vs Array???
         
         // Define Array
         std::vector<float> input;
@@ -131,6 +138,8 @@ namespace onnx_controller
         cmd_vel.twist.linear.x = predicted_linear;
         cmd_vel.twist.angular.z = predicted_angular;
 
+        // TODO: Clamp the output 
+
         return cmd_vel;
     }
 
@@ -138,5 +147,11 @@ namespace onnx_controller
     {
         global_pub_->publish(path);
         global_plan_ = path;
+    }
+
+    void ONNXController::onnxInputCallback(const custom_msgs::msg::OnnxInput::SharedPtr msg)
+    {
+        // get latest input from model and hallucination node
+        latest_onnx_input_ = *msg;
     }
 }
